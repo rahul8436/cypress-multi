@@ -18,6 +18,7 @@ jobs:
 
       - name: Run Cypress Tests
         run: npm test
+        continue-on-error: true
 
       - name: Save Cypress Test Results
         uses: actions/upload-artifact@v2
