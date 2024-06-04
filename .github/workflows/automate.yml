@@ -48,7 +48,7 @@ jobs:
           git fetch origin gh-pages:gh-pages
           git checkout gh-pages || git checkout -b gh-pages
           mkdir -p ${{ github.run_number }}
-          mv cypress/reports/* ${{ github.run_number }}
+          mv html ${{ github.run_number }}
           git add .
           git commit -m "Add reports for run ${{ github.run_number }}"
           git push origin gh-pages
