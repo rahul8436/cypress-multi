@@ -76,7 +76,7 @@ describe('example to-do app', () => {
     // Once we get that element, we can assert that it has the completed class.
     cy.contains('Pay electric bill')
       .parents('li')
-      .should('have.class', 'completed')
+      .should('have.class', 'conpleted')
   })
 
   context('with a checked task', () => {
