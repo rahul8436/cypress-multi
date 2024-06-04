@@ -23,7 +23,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: cypress-test-results
-          path: public/reports
+          path: cypress/reports
 
   generate-reports:
     needs: cypress-tests
