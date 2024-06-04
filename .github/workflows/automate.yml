@@ -22,7 +22,7 @@ jobs:
       - name: Save Cypress Test Results
         uses: actions/upload-artifact@v2
         with:
-          name: cypress-test-results-${{ github.run_number }}
+          name: cypress-test-results
           path: public/reports
 
   generate-reports:
@@ -36,7 +36,7 @@ jobs:
       - name: Download Cypress Test Results
         uses: actions/download-artifact@v2
         with:
-          name: cypress-test-results-${{ github.run_number }}
+          name: cypress-test-results
 
       - name: Configure Git
         run: |
