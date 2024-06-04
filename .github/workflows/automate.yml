@@ -45,7 +45,7 @@ jobs:
 
       - name: Push Reports to gh-pages Branch
         run: |
-          git checkout gh-pages
+          git checkout gh-pages || git checkout -b gh-pages
           git pull origin gh-pages
           mkdir -p ${{ github.run_number }}
           mv cypress/reports/* ${{ github.run_number }}
