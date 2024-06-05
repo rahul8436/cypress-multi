@@ -4,7 +4,17 @@ on:
   push:
     branches:
       - main
+      - autopush
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to run tests'
+        required: true
+        default: 'autopush'
+        options:
+          - autopush
+          - staging
+          - production
 
 jobs:
   cypress-tests:
@@ -47,10 +57,23 @@ jobs:
 
       - name: Push Reports to gh-pages Branch
         run: |
+          # Determine the environment folder based on input
+          ENVIRONMENT="${{ github.event.inputs.environment || 'autopush' }}"
+          BASE_DIR="${ENVIRONMENT}/${{ github.run_number }}"
+
           git fetch origin gh-pages:gh-pages
           git checkout gh-pages || git checkout -b gh-pages
-          mkdir -p ${{ github.run_number }}
-          mv html ${{ github.run_number }}
+          
+          # Create the environment directory if it doesn't exist
+          mkdir -p ${ENVIRONMENT}
+
+          # Create the run number directory
+          mkdir -p ${BASE_DIR}
+          
+          # Move the HTML report to the environment folder
+          mv html ${BASE_DIR}
+
+          # Add and commit the changes
           git add .
-          git commit -m "Add reports for run ${{ github.run_number }}"
+          git commit -m "Add reports for ${ENVIRONMENT} run ${{ github.run_number }}"
           git push origin gh-pages
