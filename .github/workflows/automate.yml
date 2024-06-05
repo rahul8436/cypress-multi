@@ -4,13 +4,13 @@ on:
   push:
     branches:
       - main
-      - autopush
   workflow_dispatch:
     inputs:
       environment:
         description: 'Environment to run tests'
         required: true
         default: 'autopush'
+        type: choice
         options:
           - autopush
           - staging
@@ -58,7 +58,12 @@ jobs:
       - name: Push Reports to gh-pages Branch
         run: |
           # Determine the environment folder based on input
-          ENVIRONMENT="${{ github.event.inputs.environment || 'autopush' }}"
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            ENVIRONMENT="autopush"
+          else
+            ENVIRONMENT="${{ github.event.inputs.environment }}"
+          fi
+
           BASE_DIR="${ENVIRONMENT}/${{ github.run_number }}"
 
           git fetch origin gh-pages:gh-pages
