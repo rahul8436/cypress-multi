@@ -1,10 +1,11 @@
 name: Automated Staging Deployment
 
 on:
-  schedule:
-    - cron: '0 3 * * *' # Every day at 3:00 AM UTC (8:30 AM IST)
-    - cron: '45 5 * * *' # Every day at 5:45 AM UTC (11:15 AM IST)
   workflow_dispatch:
+  schedule:
+    # - cron: '0 3 * * *' # Every day at 3:00 AM UTC (8:30 AM IST)
+    # - cron: '45 5 * * *' # Every day at 5:45 AM UTC (11:15 AM IST)
+    - cron: '55 5 * * *' # Every day at 5:55 AM UTC (11:25 AM IST)
 
 jobs:
   scheduled-deploy:
@@ -16,6 +17,7 @@ jobs:
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_STAGING_PROJECT_ID }}
 
     steps:
+      if: github.event_name == 'schedule'
       - uses: actions/checkout@v3
       - name: Create Release Branch
         run: |
